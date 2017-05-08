@@ -60,7 +60,7 @@ app.delete('/todos/:id', (req, res) => {
 		return;
 	}
 
-	Todo.findByIdAndRemove('590fa8834d8fa6dcfb0592e6').then((todo) => {
+	Todo.findByIdAndRemove(id).then((todo) => {
 		if (!todo) {
 			res.status(404).send();
 			return;
