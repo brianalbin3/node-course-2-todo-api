@@ -19,7 +19,7 @@ var UserSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: true,
-		minlength: 6,
+		minlength: 6
 	},
 	tokens: [{
 		access: {
@@ -73,7 +73,7 @@ UserSchema.statics.findByToken = function(token) {
 UserSchema.pre('save', function(next) {
 	var user = this;
 
-	if ( user.isModified('modified') ) {
+	if ( user.isModified('password') ) {
 		bcrypt.genSalt(10, (err, salt) => {
 			bcrypt.hash(user.password, salt, (err, hash) => {
 				user.password = hash;
