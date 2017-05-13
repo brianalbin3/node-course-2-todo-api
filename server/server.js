@@ -9,7 +9,6 @@ const {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
-const bcrypt = require('bcryptjs');
 
 var app = express();
 const port = process.env.PORT;
@@ -81,10 +80,6 @@ app.delete('/todos/:id', authenticate, (req, res) => {
 	});
 });
 
-// 1. Add authentication middleware
-// 2. Update the query, use findOneAndUpdate, use object specifing _id and _creator
-// 3. Update the tests
-
 app.patch('/todos/:id', authenticate, (req, res) => {
 	var id = req.params.id;
 	var body = _.pick(req.body, ['text', 'completed']);
@@ -119,10 +114,9 @@ app.post('/users', (req, res) => {
 		return user.generateAuthToken();
 	}).then((token) => {
 		res.header('x-auth', token).send(user);
-	})
-	.catch((e) => {
-		res.status(400).send(e);
-	});
+	}).catch((e) => {
+  		res.status(400).send(e);
+  	});
 });
 
 app.get('/users/me', authenticate, (req, res) => {
